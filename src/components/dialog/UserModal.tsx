@@ -10,55 +10,59 @@ import {
     Box,
     Typography,
 } from '@mui/material';
-import { ListProduct } from '../../types/user';
 import { useDropzone } from 'react-dropzone';
 
-interface ProductModalProps {
+interface UserModalProps {
     open: boolean;
     onClose: () => void;
-    onAddProduct: (product: ListProduct) => void;
-    onEditProduct: (product: ListProduct) => void;
-    editingProduct?: ListProduct | null;
+    onEditUser: (user: any) => void;
+    editingUser?: any | null;
 }
 
-const CreateProductModal: React.FC<ProductModalProps> = ({ open, onClose, onAddProduct, editingProduct, onEditProduct }) => {
-    const [product, setProduct] = useState<ListProduct>({
-        name: '',
-        price: 0,
-        image: '',
-        description: '',
-        quantity: 0,
-    });
-    useEffect(() => {
-        if (editingProduct) {
-            setProduct(editingProduct);
-        } else {
-            setProduct({ name: '', price: 0, image: '', description: '', quantity: 0 });
-        }
-    }, [editingProduct]);
+const UserModal: React.FC<UserModalProps> = ({ open, onClose, onEditUser, editingUser }) => {
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [userData, setUserData] = useState({
+        email: '',
+        fullname: '',
+        phone: '',
+        address: '',
+    });
+
+    // Cập nhật userData mỗi khi editingUser thay đổi
+    useEffect(() => {
+        if (open && editingUser) {
+            setUserData({
+                email: editingUser.email || '',
+                fullname: editingUser.fullname || '',
+                phone: editingUser.phone || '',
+                address: editingUser.address || '',
+            });
+            setImagePreview(editingUser.avatar || null);
+            setImageFile(null); // Reset file ảnh khi mở modal
+            setIsEditing(false); // Đặt lại chế độ chỉnh sửa
+        }
+    }, [open, editingUser]);
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         if (acceptedFiles && acceptedFiles[0]) {
             const file = acceptedFiles[0];
             setImageFile(file);
-            setImagePreview(URL.createObjectURL(file)); // Hiển thị preview ảnh
+            setImagePreview(URL.createObjectURL(file));
         }
     }, []);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        onDrop, accept: {
+        onDrop,
+        accept: {
             'image/*': []
         }
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setProduct((prev) => ({
-            ...prev,
-            [name]: name === 'price' || name === 'quantity' ? parseInt(value) : value,
-        }));
+        setUserData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleImageUpload = async () => {
@@ -86,80 +90,90 @@ const CreateProductModal: React.FC<ProductModalProps> = ({ open, onClose, onAddP
     };
 
     const handleSubmit = async () => {
-        let imageUrl = product.image;
+        let imageUrl = editingUser?.avatar || '';
 
         if (imageFile) {
             imageUrl = await handleImageUpload();
         }
-        if (editingProduct) {
-            onEditProduct({
-                ...product,
-                image: imageUrl || product.image,
-            });
-        } else {
-            if (imageUrl) {
-                onAddProduct({ ...product, image: imageUrl });
-            } else {
-                onAddProduct(product);
-            }
-        }
-        setProduct({ name: '', price: 0, image: '', description: '', quantity: 0 });
+        onEditUser({
+            id: editingUser.id,
+            ...userData,
+            avatar: imageUrl,
+        });
+        setUserData({
+            email: '',
+            fullname: '',
+            phone: '',
+            address: '',
+        });
         setImageFile(null);
         setImagePreview(null);
+        setIsEditing(false);
         onClose();
     };
 
-
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle> {editingProduct ? 'Cập nhật sản phẩm' : 'Tạo mới sản phẩm'}</DialogTitle>
+            <DialogTitle>Thông tin người dùng</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Vui lòng điền thông tin sản phẩm bên dưới và kéo thả ảnh vào vùng bên dưới.
+                    Vui lòng điền đầy đủ thông tin bên dưới và kéo thả ảnh vào vùng bên dưới.
                 </DialogContentText>
                 <Box sx={{ mt: 2 }}>
                     <TextField
                         autoFocus
                         margin="dense"
-                        name="name"
-                        label="Tên Sản Phẩm"
+                        name="email"
+                        label="Địa chỉ email"
                         type="text"
                         fullWidth
                         variant="outlined"
-                        value={product.name}
+                        value={userData.email}
                         onChange={handleChange}
+                        InputProps={{
+                            readOnly: !isEditing,
+                        }}
                     />
                     <TextField
                         margin="dense"
-                        name="price"
-                        label="Giá (VNĐ)"
-                        type="number"
+                        name="fullname"
+                        label="Tên người dùng"
+                        type="text"
                         fullWidth
                         variant="outlined"
-                        value={product.price}
+                        value={userData.fullname}
                         onChange={handleChange}
+                        InputProps={{
+                            readOnly: !isEditing,
+                        }}
                     />
                     <TextField
                         margin="dense"
-                        name="description"
-                        label="Mô Tả"
+                        name="phone"
+                        label="Số điện thoại"
                         type="text"
                         fullWidth
                         multiline
                         variant="outlined"
-                        value={product.description}
+                        value={userData.phone}
                         onChange={handleChange}
                         rows={4}
+                        InputProps={{
+                            readOnly: !isEditing,
+                        }}
                     />
                     <TextField
                         margin="dense"
-                        name="quantity"
-                        label="Số Lượng"
-                        type="number"
+                        name="address"
+                        label="Địa chỉ"
+                        type="text"
                         fullWidth
                         variant="outlined"
-                        value={product.quantity}
+                        value={userData.address}
                         onChange={handleChange}
+                        InputProps={{
+                            readOnly: !isEditing,
+                        }}
                     />
                     <Box
                         {...getRootProps()}
@@ -179,10 +193,10 @@ const CreateProductModal: React.FC<ProductModalProps> = ({ open, onClose, onAddP
                             <Typography>Kéo thả ảnh hoặc nhấn vào đây để chọn ảnh</Typography>
                         )}
                     </Box>
-                    {(imagePreview || (editingProduct && editingProduct.image)) && (
+                    {(imagePreview || (editingUser && editingUser?.avatar)) && (
                         <Box mt={2} textAlign="center">
                             <img
-                                src={imagePreview || editingProduct?.image}
+                                src={imagePreview || editingUser?.avatar}
                                 alt="Preview"
                                 width="50%"
                                 height="50%"
@@ -192,15 +206,18 @@ const CreateProductModal: React.FC<ProductModalProps> = ({ open, onClose, onAddP
                 </Box>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose} color="primary">
-                    Hủy
+                <Button onClick={() => setIsEditing(true)} color="primary">
+                    Chỉnh sửa
                 </Button>
-                <Button onClick={handleSubmit} color="primary">
-                    {editingProduct ? 'Cập Nhật' : 'Thêm'}
+                <Button onClick={handleSubmit} color="primary" disabled={!isEditing}>
+                    Lưu
+                </Button>
+                <Button onClick={onClose} color="primary">
+                    Thoát
                 </Button>
             </DialogActions>
         </Dialog>
     );
 };
 
-export default CreateProductModal;
+export default UserModal;

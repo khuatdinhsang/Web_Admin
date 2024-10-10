@@ -204,7 +204,7 @@ const Profile = () => {
                     </Box>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <Typography variant="h6" sx={{ mb: 7 }}>Thay đổi mật khẩu</Typography>
+                    <Typography variant="h6" sx={{ mb: 2 }}>Thay đổi mật khẩu</Typography>
                     <TextField
                         fullWidth
                         label="Mật khẩu hiện tại"

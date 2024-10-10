@@ -2,6 +2,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
 import GroupIcon from '@mui/icons-material/Group';
 import PaymentsIcon from '@mui/icons-material/Payments';
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
 export const drawerWidth = 260;
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 export const menuItemList = [
@@ -14,6 +15,11 @@ export const menuItemList = [
         label: 'Sản Phẩm',
         path: '/products-management',
         icon: CategoryIcon,
+    },
+    {
+        label: 'Bài Viết',
+        path: '/blogs-management',
+        icon: BookmarksIcon,
     },
     {
         label: 'Khách hàng',

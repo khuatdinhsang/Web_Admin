@@ -6,7 +6,7 @@ const endpoint = '/auth';
 
 export const auth = {
     login(data: LoginData): Promise<ResponseForm<LoginResponse>> {
-        return axiosClient.post(`${endpoint}/login`, data);
+        return axiosClient.post(`${endpoint}/login-admin`, data);
     },
     getCode(email: string): Promise<ResponseForm<boolean>> {
         return axiosClient.get(`${endpoint}/forgot-password?email=${email}`);

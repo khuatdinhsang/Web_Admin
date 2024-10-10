@@ -4,6 +4,7 @@ const routes = {
     home: '/',
     userManagement: '/users-management',
     productsManagement: '/products-management',
+    blogsManagement: '/blogs-management',
     ordersManagement: '/orders-management',
     information: '/information',
     resetPassword: '/reset-password',

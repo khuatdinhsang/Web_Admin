@@ -2,7 +2,7 @@ import axios from 'axios';
 import setAxiosHeader from '../utils/setAxiosHeader';
 
 const axiosClient = axios.create({
-    baseURL: 'http://103.211.206.26:3000'
+    baseURL: 'http://103.211.206.26:5000'
 });
 
 axiosClient.interceptors.request.use(

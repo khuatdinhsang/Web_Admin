@@ -1,4 +1,5 @@
 import DefaultLayout from "../layouts/DefaultLayout";
+import BlogManagement from "../pages/BlogManagement";
 import ForgotPassword from "../pages/ForgotPassword";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -47,6 +48,11 @@ const privateRoutes = [
     {
         path: routes.productsManagement,
         component: ProductManagement,
+        layout: DefaultLayout,
+    },
+    {
+        path: routes.blogsManagement,
+        component: BlogManagement,
         layout: DefaultLayout,
     },
     {
