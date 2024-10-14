@@ -26,11 +26,11 @@ export const menuItemList = [
         path: '/users-management',
         icon: GroupIcon,
     },
-    {
-        label: 'Đơn hàng',
-        path: '/orders-management',
-        icon: PaymentsIcon,
-    },
+    // {
+    //     label: 'Đơn hàng',
+    //     path: '/orders-management',
+    //     icon: PaymentsIcon,
+    // },
     {
         label: 'Thông tin',
         path: '/information',
