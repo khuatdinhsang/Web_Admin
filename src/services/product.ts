@@ -13,6 +13,8 @@ export const product = {
     },
     update(id: number, newProduct: ListProduct): Promise<ResponseForm<ListProduct>> {
         return axiosClient.put(`${endpoint}/${id}`, newProduct)
+    },
+    statistical(): Promise<ResponseForm<any>> {
+        return axiosClient.get(`/statistical`)
     }
-    
 };
