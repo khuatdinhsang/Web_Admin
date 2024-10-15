@@ -160,6 +160,7 @@ const CreateProductModal: React.FC<ProductModalProps> = ({ open, onClose, onAddP
                         variant="outlined"
                         value={product.quantity}
                         onChange={handleChange}
+                        disabled={editingProduct?true:false}
                     />
                     <Box
                         {...getRootProps()}

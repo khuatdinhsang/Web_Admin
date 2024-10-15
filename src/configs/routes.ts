@@ -7,7 +7,9 @@ import OrderManagement from "../pages/OrderManagement";
 import ProductManagement from "../pages/ProductManagement";
 import Profile from "../pages/Profile";
 import ResetPassword from "../pages/ResetPassword";
+import StatisticalManagement from "../pages/StatisticalManagement";
 import UserManagement from "../pages/UserManagement";
+import WarehouseManagement from "../pages/WarehouseManagement";
 import routes from "../utils/routes";
 
 const publicRoutes = [
@@ -48,6 +50,16 @@ const privateRoutes = [
     {
         path: routes.productsManagement,
         component: ProductManagement,
+        layout: DefaultLayout,
+    },
+    {
+        path: routes.warehouseManagement,
+        component: WarehouseManagement,
+        layout: DefaultLayout,
+    },
+    {
+        path: routes.statisticalManagement,
+        component: StatisticalManagement,
         layout: DefaultLayout,
     },
     {

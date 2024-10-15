@@ -47,10 +47,11 @@ const ProductManagement = () => {
       toast.error("Lỗi thêm sản phẩm!!!")
     }
   };
-  const handleEditProduct = async (updatedProduct: ListProduct) => {
+  const handleEditProduct = async (updatedProduct: any) => {
     console.log('Sản phẩm được cập nhật:', updatedProduct);
+    const {quantity, ...newProduct}= updatedProduct
     try {
-      const res = await product.update(updatedProduct.id as number, updatedProduct);
+      const res = await product.update(updatedProduct.id as number, newProduct);
       setListProducts((prev) => prev.map((prod) => (prod.id === updatedProduct.id ? res.data : prod)));
       toast.success("Cập nhật sản phẩm thành công!");
     } catch (error) {
@@ -61,6 +62,17 @@ const ProductManagement = () => {
     setEditingProduct(product);
     setOpen(true);
   };
+  const handleDelete =async (productItem:ListProduct)=>{
+    try {
+      const res = await product.delete(productItem?.id as number);
+      setListProducts((prev) => prev.filter((prod) => prod.id!== productItem?.id))
+      toast.success("Xóa sản phẩm thành công!");
+    } catch (error) {
+      toast.error("Lỗi xóa sản phẩm!!!");
+    }
+    setOpen(false);
+    setEditingProduct(null);
+  }
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -79,7 +91,6 @@ const ProductManagement = () => {
               <TableCell>Giá</TableCell>
               <TableCell>Hình Ảnh</TableCell>
               <TableCell>Mô Tả</TableCell>
-              <TableCell >Số Lượng</TableCell>
               <TableCell >Thao tác</TableCell>
             </TableRow>
           </TableHead>
@@ -93,8 +104,9 @@ const ProductManagement = () => {
                   <img src={product.image} alt={product.name} style={{ width: '100px', height: '100px' }} />
                 </TableCell>
                 <TableCell>{product.description}</TableCell>
-                <TableCell>{product.quantity}</TableCell>
-                <TableCell><Button onClick={() => handleEditClick(product)}>Sửa</Button></TableCell>
+                <TableCell><Button onClick={() => handleEditClick(product)}>Sửa</Button>
+                {/* <Button color="error" onClick={() => handleDelete(product)}>Xóa</Button> */}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

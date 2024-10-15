@@ -8,5 +8,7 @@ const routes = {
     ordersManagement: '/orders-management',
     information: '/information',
     resetPassword: '/reset-password',
+    statisticalManagement:'/statistical-management',
+    warehouseManagement:'/warehouse-management'
 }
 export default routes;

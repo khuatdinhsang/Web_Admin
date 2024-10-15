@@ -121,7 +121,7 @@ const BlogManagement = () => {
         />
     ))}
 </TableCell>
-<TableCell><Button  onClick={()=>handleOpenDialog(product.id)}>Xóa</Button>
+<TableCell><Button color="error" onClick={()=>handleOpenDialog(product.id)}>Xóa</Button>
 <Button onClick={() => handleEditClick(product)}>Sửa</Button> 
 </TableCell>
             

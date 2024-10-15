@@ -16,5 +16,11 @@ export const product = {
     },
     statistical(): Promise<ResponseForm<any>> {
         return axiosClient.get(`/statistical`)
+    },
+    delete(id: number): Promise<ResponseForm<any>> {
+        return axiosClient.delete(`${endpoint}/${id}`)
+    },
+    updateProductQuantity(id: number, quantity:number): Promise<ResponseForm<any>> {
+        return axiosClient.put(`/warehouse/${id}`, {quantity:quantity})
     }
 };
